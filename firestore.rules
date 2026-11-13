@@ -1,0 +1,56 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() { return request.auth != null; }
+    function ownsPost() { return signedIn() && resource.data.uid == request.auth.uid; }
+
+    match /users/{userId} {
+      allow read: if signedIn();
+      allow create: if signedIn() && request.auth.uid == userId
+        && request.resource.data.keys().hasOnly(['displayName','email','createdAt','bio']);
+      allow update: if signedIn() && request.auth.uid == userId
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['displayName','bio','photoURL']);
+      allow delete: if false;
+    }
+
+    match /posts/{postId} {
+      allow read: if signedIn();
+      allow create: if signedIn()
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.text is string
+        && request.resource.data.text.size() > 0
+        && request.resource.data.text.size() <= 1000
+        && request.resource.data.keys().hasOnly(['text','uid','authorName','createdAt','likeCount','commentCount']);
+      allow update: if (
+          ownsPost()
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['text'])
+          && request.resource.data.text is string
+          && request.resource.data.text.size() <= 1000
+        ) || (
+          signedIn()
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['likeCount'])
+          && request.resource.data.likeCount is int
+          && request.resource.data.likeCount >= 0
+        );
+      allow delete: if ownsPost();
+
+      match /likes/{userId} {
+        allow read: if signedIn();
+        allow create: if signedIn() && request.auth.uid == userId
+          && request.resource.data.uid == request.auth.uid;
+        allow delete: if signedIn() && request.auth.uid == userId;
+        allow update: if false;
+      }
+      match /comments/{commentId} {
+        allow read: if signedIn();
+        allow create: if signedIn()
+          && request.resource.data.uid == request.auth.uid
+          && request.resource.data.text is string
+          && request.resource.data.text.size() > 0
+          && request.resource.data.text.size() <= 300
+          && request.resource.data.keys().hasOnly(['text','uid','authorName','createdAt']);
+        allow update, delete: if signedIn() && resource.data.uid == request.auth.uid;
+      }
+    }
+  }
+}

@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="bn">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#123d2b">
+  <title>Adda — তোমার কথার জায়গা</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="Adda home"><span class="brand-mark">a</span><span>Adda<span class="brand-dot">.</span></span></a>
+      <div class="topbar-search"><span>⌕</span><input id="searchInput" type="search" placeholder="পোস্ট বা মানুষ খুঁজুন..." aria-label="Search"></div>
+      <div class="topbar-actions">
+        <button class="icon-button" id="themeButton" title="Theme" aria-label="Toggle theme">◐</button>
+        <button class="avatar avatar-small" id="headerAvatar" title="Profile">A</button>
+      </div>
+    </header>
+
+    <main class="layout">
+      <aside class="sidebar">
+        <div class="sidebar-user">
+          <div class="avatar avatar-large" id="sideAvatar">A</div>
+          <div><strong id="sideName">স্বাগতম</strong><span id="sideHandle">@adda-user</span></div>
+        </div>
+        <nav class="nav-links">
+          <button class="nav-link active" data-view="feed"><span>⌂</span> হোম ফিড</button>
+          <button class="nav-link" data-view="profile"><span>◉</span> আমার প্রোফাইল</button>
+          <button class="nav-link" data-view="saved"><span>♡</span> পছন্দের পোস্ট</button>
+        </nav>
+        <div class="sidebar-note"><span class="note-icon">✦</span><strong>কথা হোক মন খুলে</strong><p>তোমার ভাবনা, অনুভূতি আর গল্পের জন্য ছোট্ট এক জায়গা।</p></div>
+        <button class="text-button hidden" id="logoutButton">↪ লগ আউট</button>
+      </aside>
+
+      <section class="content">
+        <section class="welcome-row">
+          <div><p class="eyebrow">YOUR SPACE TO EXPRESS</p><h1 id="pageTitle">আজ কী ভাবছো?</h1><p class="subheading">একটু লিখে ফেলো। তোমার কথারও মূল্য আছে।</p></div>
+          <div class="date-chip" id="todayLabel">ADD A THOUGHT ✦</div>
+        </section>
+
+        <section class="composer card" id="composer">
+          <div class="composer-top"><div class="avatar" id="composerAvatar">A</div><textarea id="postText" maxlength="1000" placeholder="মনের কথা লিখে ফেলো..." rows="3"></textarea></div>
+          <div class="composer-bottom"><span id="charCount">0 / 1000</span><button class="primary-button" id="publishButton">প্রকাশ করো <span>↗</span></button></div>
+        </section>
+
+        <div class="feed-toolbar"><div><strong id="feedHeading">সবার লেখা</strong><span class="muted" id="postCount">নতুন ভাবনাগুলো এখানে</span></div><select id="sortSelect" aria-label="Sort posts"><option value="new">সাম্প্রতিক</option><option value="old">পুরোনো</option></select></div>
+        <div id="feed" class="feed"><div class="empty-state"><div class="empty-icon">✦</div><strong>ফিড প্রস্তুত হচ্ছে</strong><p>Firebase যুক্ত হলে পোস্টগুলো এখানে দেখা যাবে।</p></div></div>
+      </section>
+
+      <aside class="rightbar">
+        <div class="right-card">
+          <p class="eyebrow">ABOUT ADDA</p><h3>শব্দের মাঝে সংযোগ।</h3><p>এখানে বড় কিছু বলার দরকার নেই। ছোট্ট একটি বাক্যও কারও দিনটা সুন্দর করতে পারে।</p>
+          <div class="right-stat"><span>✦</span><div><strong>Share your thoughts</strong><small>লিখো · পড়ো · যুক্ত হও</small></div></div>
+        </div>
+        <div class="right-card tips-card"><p class="eyebrow">COMMUNITY NOTE</p><h3>ভালো আড্ডার নিয়ম</h3><ul><li>সবার মতামতকে সম্মান করো।</li><li>ব্যক্তিগত তথ্য প্রকাশ কোরো না।</li><li>ভদ্র ও সহায়ক থাকো।</li></ul></div>
+        <p class="copyright">© 2026 Adda Community</p>
+      </aside>
+    </main>
+  </div>
+
+  <div class="modal-backdrop" id="authModal">
+    <section class="auth-card">
+      <div class="auth-brand"><span class="brand-mark">a</span><span>Adda<span class="brand-dot">.</span></span></div>
+      <p class="eyebrow">WELCOME TO YOUR SPACE</p><h1 id="authTitle">আড্ডায় যোগ দাও</h1><p class="auth-subtitle">তোমার লেখা ও ভাবনা শেয়ার করতে অ্যাকাউন্টে প্রবেশ করো।</p>
+      <form id="authForm">
+        <label id="nameField" class="hidden">তোমার নাম<input id="displayName" type="text" maxlength="40" placeholder="যেমন: Fahim"></label>
+        <label>ইমেইল<input id="email" type="email" autocomplete="email" placeholder="name@example.com" required></label>
+        <label>পাসওয়ার্ড<input id="password" type="password" autocomplete="current-password" minlength="6" placeholder="কমপক্ষে ৬ অক্ষর" required></label>
+        <p class="form-error" id="authError" role="alert"></p>
+        <button class="primary-button full-button" id="authSubmit" type="submit">লগ ইন করো <span>↗</span></button>
+      </form>
+      <p class="auth-switch"><span id="switchText">নতুন এখানে?</span> <button id="switchAuth" type="button">অ্যাকাউন্ট তৈরি করো</button></p>
+      <p class="fine-print">চালিয়ে গেলে তুমি কমিউনিটির নিয়ম মেনে চলতে সম্মত হচ্ছো।</p>
+    </section>
+  </div>
+
+  <div class="toast" id="toast" role="status"></div>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
