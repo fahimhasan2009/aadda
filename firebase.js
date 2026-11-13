@@ -6,12 +6,12 @@ import { getAuth } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-aut
 import { getFirestore } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
 
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT_ID.appspot.com",
-  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyDTBj-A9n-Rd3eP3fABkfffg2eh1Fd70NQ",
+  authDomain: "adda-dc665.firebaseapp.com",
+  projectId: "adda-dc665",
+  storageBucket: "adda-dc665.firebasestorage.app",
+  messagingSenderId: "625166806308",
+  appId: "1:625166806308:web:5775298f534ae47a1957b1"
 };
 
 export const firebaseConfigured = !Object.values(firebaseConfig).some(v => String(v).startsWith("YOUR_"));
